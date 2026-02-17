@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Praveen Kumar — Healthcare Software Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050c0f;
+      --bg2: #071218;
+      --bg3: #0a1a22;
+      --card: #0d2030;
+      --accent: #00d4aa;
+      --accent2: #00a8f3;
+      --accent3: #7fffd4;
+      --text: #e8f4f0;
+      --muted: #6a9aaa;
+      --border: rgba(0,212,170,0.15);
+      --glow: 0 0 24px rgba(0,212,170,0.18);
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.5;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(5,12,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 3rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-blob {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(0,212,170,0.08) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      animation: pulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .hero-blob2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(0,168,243,0.06) 0%, transparent 70%);
+      bottom: 0; left: 20%;
+      animation: pulse 8s ease-in-out infinite reverse;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.7; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,212,170,0.08);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      padding: 0.4rem 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    h1 {
+      font-family: var(--font-head);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .accent-word { color: var(--accent); }
+    h1 .accent2-word { color: var(--accent2); }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      max-width: 580px;
+      line-height: 1.8;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .hero-meta-item span { color: var(--accent3); }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #050c0f;
+      border: none;
+      padding: 0.85rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 20px rgba(0,212,170,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--accent3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(0,212,170,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.85rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover {
+      background: rgba(0,212,170,0.08);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SCROLLING TICKER ── */
+    .ticker {
+      background: var(--accent);
+      color: #050c0f;
+      padding: 0.6rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 2;
+    }
+    .ticker-inner {
+      display: inline-flex;
+      gap: 0;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-item {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0 2.5rem;
+    }
+    .ticker-dot { color: rgba(5,12,15,0.5); padding: 0 0.5rem; }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION ── */
+    section {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+    h2 em { font-style: normal; color: var(--accent); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p strong { color: var(--accent3); font-weight: 700; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.5rem 2rem;
+      margin-top: 1rem;
+    }
+    .edu-card h4 {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .edu-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+    .edu-badge {
+      display: inline-block;
+      background: rgba(0,212,170,0.1);
+      color: var(--accent);
+      border-radius: 3px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      margin-top: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    /* ── LIS IMAGE SHOWCASE ── */
+    .lis-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 3rem;
+    }
+    .lis-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .lis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .lis-image-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+    }
+
+    .lis-image-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,170,0.08) 0%, transparent 60%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .lis-image-wrap img {
+      width: 100%;
+      display: block;
+      filter: saturate(0.7) brightness(0.85);
+      transition: filter 0.4s;
+    }
+    .lis-image-wrap:hover img {
+      filter: saturate(1) brightness(1);
+    }
+
+    /* Simulated LIS Dashboard */
+    .lis-dashboard {
+      background: #061218;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,212,170,0.06);
+      font-size: 0.72rem;
+    }
+
+    .lis-topbar {
+      background: #0a1e28;
+      border-bottom: 1px solid var(--border);
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .lis-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .lis-dot.r { background: #ff5f5f; }
+    .lis-dot.y { background: #ffbd2e; }
+    .lis-dot.g { background: var(--accent); }
+    .lis-topbar-title {
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .lis-topbar-status {
+      margin-left: auto;
+      color: var(--accent);
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .lis-topbar-status::before {
+      content: '';
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.5s infinite;
+    }
+
+    .lis-body { display: grid; grid-template-columns: 160px 1fr; }
+
+    .lis-sidebar {
+      background: #071018;
+      border-right: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+    .lis-nav-item {
+      padding: 0.55rem 1rem;
+      font-size: 0.68rem;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: background 0.15s;
+    }
+    .lis-nav-item.active {
+      background: rgba(0,212,170,0.1);
+      color: var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+    .lis-nav-item:hover:not(.active) { background: rgba(255,255,255,0.02); }
+    .lis-icon { width: 14px; height: 14px; opacity: 0.7; }
+
+    .lis-main { padding: 1rem; }
+
+    .lis-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .lis-kpi {
+      background: #0d2030;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.8rem;
+    }
+    .lis-kpi-val {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .lis-kpi-lab { font-size: 0.6rem; color: var(--muted); margin-top: 0.2rem; }
+    .lis-kpi-delta {
+      font-size: 0.6rem;
+      color: #4ecdc4;
+      margin-top: 0.15rem;
+    }
+
+    .lis-table-head {
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.4rem;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr 0.7fr 0.8fr 0.6fr;
+      gap: 0.5rem;
+    }
+    .lis-row {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr 0.7fr 0.8fr 0.6fr;
+      gap: 0.5rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(0,212,170,0.04);
+      font-size: 0.63rem;
+      color: var(--text);
+      align-items: center;
+    }
+    .lis-row:hover { background: rgba(0,212,170,0.03); }
+    .status-badge {
+      font-size: 0.57rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-badge.done { background: rgba(0,212,170,0.12); color: var(--accent); }
+    .status-badge.prog { background: rgba(255,189,46,0.12); color: #ffbd2e; }
+    .status-badge.pend { background: rgba(0,168,243,0.12); color: var(--accent2); }
+
+    .lis-chart-area {
+      margin-top: 0.8rem;
+      background: #071018;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.8rem;
+    }
+    .lis-chart-title {
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+    .lis-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 50px;
+    }
+    .lis-bar {
+      flex: 1;
+      background: rgba(0,212,170,0.25);
+      border-radius: 2px 2px 0 0;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .lis-bar:hover { background: var(--accent); }
+    .lis-bar-labels {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .lis-bar-label { flex: 1; text-align: center; font-size: 0.55rem; color: var(--muted); }
+
+    /* ── EXPERIENCE ── */
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .exp-card:hover {
+      border-color: rgba(0,212,170,0.3);
+      box-shadow: var(--glow);
+    }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+    .exp-company {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .exp-role {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-top: 0.2rem;
+    }
+    .exp-date {
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: rgba(0,212,170,0.08);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.3rem 0.8rem;
+      white-space: nowrap;
+    }
+    .exp-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+    .exp-list { list-style: none; }
+    .exp-list li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.8;
+      padding: 0.3rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .exp-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .exp-list li strong { color: var(--text); }
+
+    /* ── TECH GRID ── */
+    .tech-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+
+    .tech-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tech-group:hover {
+      border-color: rgba(0,212,170,0.3);
+      transform: translateY(-3px);
+    }
+    .tech-group-title {
+      font-family: var(--font-head);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .tech-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech-chip {
+      background: rgba(0,168,243,0.08);
+      border: 1px solid rgba(0,168,243,0.2);
+      color: var(--text);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .tech-chip:hover {
+      background: rgba(0,212,170,0.12);
+      border-color: var(--accent);
+      color: var(--accent3);
+    }
+
+    /* ── FOCUS AREAS ── */
+    .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+
+    .focus-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .focus-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,212,170,0.3);
+      box-shadow: var(--glow);
+    }
+    .focus-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .focus-card h3 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .focus-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .focus-num {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-family: var(--font-head);
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(0,212,170,0.06);
+      line-height: 1;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 5rem 3rem;
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .contact-info h2 { margin-bottom: 1rem; }
+    .contact-info p { color: var(--muted); font-size: 0.88rem; line-height: 1.9; margin-bottom: 2rem; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.85rem;
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: rgba(0,212,170,0.05);
+      color: var(--accent);
+    }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      background: rgba(0,212,170,0.1);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-form-area {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+    }
+    .contact-form-area h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .form-row { margin-bottom: 1.2rem; }
+    .form-row label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-row input, .form-row textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-row input:focus, .form-row textarea:focus { border-color: var(--accent); }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── DIVIDER LINE ── */
+    .section-line {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      section { padding: 3rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .lis-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .lis-section { padding: 3rem 1.5rem; }
+      .contact-section { padding: 3rem 1.5rem; }
+      .lis-body { grid-template-columns: 1fr; }
+      .lis-sidebar { display: none; }
+      .lis-kpi-val { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">PK.dev</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#lis">LIS Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-blob"></div>
+    <div class="hero-blob2"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Available for Opportunities</div>
+      <h1>
+        Praveen<br/>
+        <span class="accent-word">Kumar</span>
+      </h1>
+      <p class="hero-subtitle">
+        Junior Software Developer at <strong style="color:var(--accent3)">Plus91 Technologies Pvt. Ltd., Pune, Maharashtra Pvt. Ltd., Pune, Maharashtra
+        </strong> — building scalable <strong style="color:var(--accent3)">LIS Interface Application</strong> platforms, laboratory machine integrations, and real-time healthcare data systems.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">📍 <span>Pune, India</span></div>
+        <div class="hero-meta-item">🎓 <span>MCA Graduate</span></div>
+        <div class="hero-meta-item">💼 <span>2+ Years Experience</span></div>
+        <div class="hero-meta-item">🏥 <span>Healthcare IT</span></div>
+      </div>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn-outline">View Work</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Python Developer</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">LIS/LIMS Systems</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Django & Flask</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Lab Machine Integration</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">ASTM / HL7 Protocols</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Real-Time Dashboards</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Healthcare IT</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">MySQL & SQLite</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">REST APIs</span><span class="ticker-dot">◆</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">Python Developer</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">LIS/LIMS Systems</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Django & Flask</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Lab Machine Integration</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">ASTM / HL7 Protocols</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Real-Time Dashboards</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">Healthcare IT</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">MySQL & SQLite</span><span class="ticker-dot">◆</span>
+      <span class="ticker-item">REST APIs</span><span class="ticker-dot">◆</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">01 — About</div>
+    <div class="section-line"></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2>Building <em>healthcare</em><br/>systems that matter</h2>
+        <p>
+          I'm a <strong>Python Developer</strong> with 2+ years of experience building digital healthcare solutions. I graduated with a <strong>Master of Computer Applications (MCA)</strong> from Dr. Shyama Prasad Mukherjee University, Ranchi, Jharkhand and currently work as a <strong>Junior Software Developer at Plus91 Technologies Pvt. Ltd., Pune, Maharashtra</strong>.
+        </p>
+        <p>
+          My work focuses on <strong>Python programming</strong>, <strong>MySQL databases</strong>, and <strong>Django-based frameworks</strong>, contributing to scalable and reliable healthcare software. I specialize in <strong>LIS interface applications</strong> and digital healthcare solutions, including laboratory machine integrations for seamless data transfer to LIMS/HIMS.
+        </p>
+        <p>
+          I'm passionate about <strong>continuous learning</strong>, system optimization, and delivering healthcare software that improves <strong>laboratory efficiency</strong>, <strong>data accuracy</strong>, and ultimately <strong>patient outcomes</strong>.
+        </p>
+
+        <div class="edu-card">
+          <h4>🎓 Master of Computer Applications (MCA)</h4>
+          <p>Dr. Shyama Prasad Mukherjee University, Ranchi, Jharkhand</p>
+          <span class="edu-badge">Postgraduate Degree</span>
+        </div>
+      </div>
+
+      <div class="reveal" style="animation-delay:0.15s">
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">80+</div>
+            <div class="stat-label">Lab Instruments Integrated</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Healthcare Domain Focus</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Learning Mindset</div>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem">
+          <div class="focus-card">
+            <span class="focus-num">+</span>
+            <span class="focus-icon">🏥</span>
+            <h3>Plus91 Technologies Pvt. Ltd., Pune, Maharashtra</h3>
+            <p>Working on end-to-end LIS/HIMS solutions — from instrument-level serial/TCP integrations to centralized multi-lab dashboards and secure API-based data sync systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIS INTERFACE SECTION -->
+  <div class="lis-section" id="lis">
+    <div class="lis-inner">
+      <div class="section-label">02 — Featured Work</div>
+      <div class="section-line"></div>
+      <div class="lis-grid">
+        <div class="reveal">
+          <h2>LIS <em>Interface</em><br/>Applications</h2>
+          <p style="color:var(--muted); font-size:0.88rem; line-height:1.9; margin-bottom:1.5rem;">
+            Building the backbone of modern clinical laboratories. I design and develop Laboratory Information System interfaces that connect lab instruments to LIMS/HIMS platforms using ASTM and HL7 protocols over Serial & TCP/IP.
+          </p>
+          <ul class="exp-list" style="margin-bottom:2rem">
+            <li>Real-time bidirectional data transfer between instruments and LIMS</li>
+            <li>Support for <strong>ASTM / HL7</strong> messaging standards</li>
+            <li>Serial (RS-232) and <strong>TCP/IP network</strong> connectivity</li>
+            <li>Background schedulers for <strong>automated result polling</strong></li>
+            <li>Error handling, logging & retry mechanisms for reliability</li>
+            <li>Centralized multi-lab monitoring dashboards</li>
+          </ul>
+          <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+            <a href="#contact" class="btn-primary">Discuss a Project</a>
+            <a href="#experience" class="btn-outline">View Experience</a>
+          </div>
+        </div>
+
+        <!-- LIS Connection Architecture Diagram -->
+        <div class="reveal" style="animation-delay:0.2s">
+          <div class="lis-dashboard">
+            <div class="lis-topbar">
+              <div class="lis-dot r"></div>
+              <div class="lis-dot y"></div>
+              <div class="lis-dot g"></div>
+              <span class="lis-topbar-status">LIVE</span>
+            </div>
+
+            <div style="padding:1.2rem; font-size:0.7rem;">
+
+              <!-- LIMS/HIMS Server at top -->
+              <div style="text-align:center; margin-bottom:0.4rem;">
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; background:#0d2030; border:1px solid var(--accent); border-radius:8px; padding:0.6rem 1.4rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                  <span style="font-family:var(--font-head); font-weight:700; color:var(--accent); font-size:0.78rem;">LIMS / HIMS Server</span>
+                </div>
+                <div style="font-size:0.6rem; color:var(--muted); margin-top:0.3rem;">Central Data Repository · Django REST API</div>
+              </div>
+
+              <!-- Line down from server to engine -->
+              <div style="display:flex; justify-content:center;">
+                <div style="width:2px; height:20px; background:linear-gradient(to bottom, var(--accent), var(--accent2));"></div>
+              </div>
+
+              <!-- LIS Interface Engine -->
+              <div style="text-align:center; margin-bottom:0.4rem;">
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; background:#061c2a; border:2px solid var(--accent2); border-radius:8px; padding:0.7rem 1.6rem; box-shadow:0 0 18px rgba(0,168,243,0.18);">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                  <div>
+                    <div style="font-family:var(--font-head); font-weight:700; color:var(--accent2); font-size:0.8rem;">LIS Interface Engine</div>
+                    <div style="font-size:0.58rem; color:var(--muted); margin-top:0.1rem;">Python · ASTM E1394 / HL7 v2.x · Scheduler · Parser</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Forked lines down to two groups -->
+              <div style="position:relative; height:28px; margin-bottom:0.3rem;">
+                <svg width="100%" height="28" style="overflow:visible;">
+                  <line x1="50%" y1="0" x2="25%" y2="28" stroke="rgba(0,212,170,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+                  <line x1="50%" y1="0" x2="75%" y2="28" stroke="rgba(0,168,243,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+              </div>
+
+              <!-- Protocol badges -->
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-bottom:0.6rem;">
+                <div style="text-align:center;">
+                  <div style="display:inline-flex; align-items:center; gap:0.4rem; background:rgba(0,212,170,0.07); border:1px dashed rgba(0,212,170,0.4); border-radius:4px; padding:0.25rem 0.8rem; font-size:0.62rem; color:var(--accent); letter-spacing:0.05em;">
+                    🔌 Serial · RS-232
+                  </div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="display:inline-flex; align-items:center; gap:0.4rem; background:rgba(0,168,243,0.07); border:1px dashed rgba(0,168,243,0.4); border-radius:4px; padding:0.25rem 0.8rem; font-size:0.62rem; color:var(--accent2); letter-spacing:0.05em;">
+                    🌐 TCP / IP Network
+                  </div>
+                </div>
+              </div>
+
+              <!-- Analyzer Cards -->
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+
+                <!-- Hematology -->
+                <div style="background:#071018; border:1px solid rgba(0,212,170,0.25); border-radius:8px; padding:0.85rem;">
+                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; border-bottom:1px solid rgba(0,212,170,0.1); padding-bottom:0.45rem;">
+                    <div style="width:7px; height:7px; border-radius:50%; background:var(--accent); animation:blink 1.5s infinite;"></div>
+                    <span style="font-family:var(--font-head); font-weight:700; color:var(--accent); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em;">🩸 Hematology</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">Sysmex XN-550</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">CBC · 5-Part Diff</div>
+                      </div>
+                      <span class="status-badge done" style="font-size:0.52rem;">Online</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">Mindray BC-6800</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">WBC · RBC · PLT</div>
+                      </div>
+                      <span class="status-badge done" style="font-size:0.52rem;">Online</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">Stago STA-R Max</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">Coagulation · PT/INR</div>
+                      </div>
+                      <span class="status-badge prog" style="font-size:0.52rem;">Running</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Biochemistry -->
+                <div style="background:#071018; border:1px solid rgba(0,168,243,0.25); border-radius:8px; padding:0.85rem;">
+                  <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; border-bottom:1px solid rgba(0,168,243,0.1); padding-bottom:0.45rem;">
+                    <div style="width:7px; height:7px; border-radius:50%; background:var(--accent2); animation:blink 1.5s infinite;"></div>
+                    <span style="font-family:var(--font-head); font-weight:700; color:var(--accent2); font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em;">🧪 Biochemistry</span>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">Roche Cobas 501</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">LFT · KFT · Lipid Panel</div>
+                      </div>
+                      <span class="status-badge done" style="font-size:0.52rem;">Online</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">BioRad D-10 HPLC</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">HbA1c · Haemoglobin</div>
+                      </div>
+                      <span class="status-badge done" style="font-size:0.52rem;">Online</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#0d2030; border-radius:4px; padding:0.38rem 0.6rem;">
+                      <div>
+                        <div style="color:var(--text); font-size:0.64rem; font-weight:600;">Beckman AU480</div>
+                        <div style="color:var(--muted); font-size:0.54rem;">Thyroid · Glucose · CRP</div>
+                      </div>
+                      <span class="status-badge pend" style="font-size:0.52rem;">Idle</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer status bar -->
+              <div style="margin-top:0.8rem; background:#0a1a22; border:1px solid var(--border); border-radius:6px; padding:0.55rem 0.8rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                <div style="font-size:0.58rem; color:var(--muted);">
+                  <span style="color:var(--accent);">↑↓</span> Bidirectional · ASTM E1394 / HL7 v2.x
+                </div>
+                <div style="display:flex; gap:1rem;">
+                  <span style="font-size:0.58rem; color:var(--muted);">Results synced: <span style="color:var(--accent);">248</span></span>
+                  <span style="font-size:0.58rem; color:var(--muted);">Uptime: <span style="color:var(--accent);">99.8%</span></span>
+                  <span style="font-size:0.58rem; color:var(--muted);">Instruments: <span style="color:var(--accent);">6/6</span></span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">03 — Experience</div>
+    <div class="section-line"></div>
+    <h2>Where I've <em>worked</em></h2>
+
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Plus91 Technologies Pvt. Ltd., Pune, Maharashtra</div>
+          <div class="exp-role">Junior Software Developer</div>
+        </div>
+        <div class="exp-date">Present · Pune, India</div>
+      </div>
+      <div class="exp-divider"></div>
+      <ul class="exp-list">
+        <li>Developing and maintaining <strong>LIS interface applications</strong> for seamless data transfer between laboratory instruments and LIMS/HIMS platforms.</li>
+        <li>Integrating lab instruments using <strong>ASTM and HL7 protocols</strong> over Serial (RS-232) and TCP/IP connections for real-time bidirectional communication.</li>
+        <li>Building <strong>centralized dashboards</strong> for multi-lab data monitoring, providing real-time visibility across instrument status and result workflows.</li>
+        <li>Designing <strong>secure API-based data synchronization</strong> systems between local LIS installations and central healthcare servers.</li>
+        <li>Implementing <strong>background schedulers, logging, and robust error-handling systems</strong> to ensure high-availability operation.</li>
+        <li>Contributing to <strong>Django-based backend systems</strong> with MySQL, emphasizing clean, maintainable, and scalable architecture.</li>
+        <li>Improving <strong>laboratory efficiency, data accuracy</strong>, and ultimately supporting better patient outcomes through reliable software.</li>
+      </ul>
+      <div style="margin-top:1.5rem; display:flex; flex-wrap:wrap; gap:0.5rem;">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Django</span>
+        <span class="tech-chip">Flask</span>
+        <span class="tech-chip">MySQL</span>
+        <span class="tech-chip">ASTM</span>
+        <span class="tech-chip">HL7</span>
+        <span class="tech-chip">REST APIs</span>
+        <span class="tech-chip">Tkinter</span>
+        <span class="tech-chip">SQLite</span>
+        <span class="tech-chip">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOCUS AREAS -->
+  <section id="focus" style="padding-top:0">
+    <div class="section-label">04 — Specializations</div>
+    <div class="section-line"></div>
+    <h2>Core <em>focus</em> areas</h2>
+    <div class="focus-grid">
+      <div class="focus-card reveal">
+        <span class="focus-num">01</span>
+        <span class="focus-icon">🔬</span>
+        <h3>Lab Instrument Integration</h3>
+        <p>Connecting lab instruments (analyzers, HPLC, hematology systems) to LIMS via ASTM/HL7 over RS-232 serial and TCP/IP, ensuring reliable bidirectional data flow.</p>
+      </div>
+      <div class="focus-card reveal" style="transition-delay:0.1s">
+        <span class="focus-num">02</span>
+        <span class="focus-icon">📊</span>
+        <h3>Real-Time Dashboards</h3>
+        <p>Building centralized multi-lab dashboards that surface live instrument status, result volumes, and system health — giving lab managers full operational visibility.</p>
+      </div>
+      <div class="focus-card reveal" style="transition-delay:0.2s">
+        <span class="focus-num">03</span>
+        <span class="focus-icon">🔐</span>
+        <h3>Secure Data Sync</h3>
+        <p>Designing secure API-based synchronization between local LIS deployments and central servers, with encryption, auth, and comprehensive audit logging.</p>
+      </div>
+      <div class="focus-card reveal" style="transition-delay:0.3s">
+        <span class="focus-num">04</span>
+        <span class="focus-icon">⚙️</span>
+        <h3>Backend Engineering</h3>
+        <p>Clean, scalable Django and Flask backends with MySQL — background schedulers, robust error handling, and well-structured REST APIs for healthcare systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack">
+    <div class="section-label">05 — Technology</div>
+    <div class="section-line"></div>
+    <h2>My <em>stack</em></h2>
+    <div class="tech-categories">
+      <div class="tech-group reveal">
+        <div class="tech-group-title">🐍 Core Languages</div>
+        <div class="tech-chips">
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">HTML5</span>
+          <span class="tech-chip">CSS3</span>
+          <span class="tech-chip">Bash</span>
+        </div>
+      </div>
+      <div class="tech-group reveal" style="transition-delay:0.05s">
+        <div class="tech-group-title">🧩 Frameworks</div>
+        <div class="tech-chips">
+          <span class="tech-chip">Django</span>
+          <span class="tech-chip">Flask</span>
+          <span class="tech-chip">Tkinter</span>
+          <span class="tech-chip">Node.js</span>
+          <span class="tech-chip">REST API</span>
+        </div>
+      </div>
+      <div class="tech-group reveal" style="transition-delay:0.1s">
+        <div class="tech-group-title">🗄️ Databases</div>
+        <div class="tech-chips">
+          <span class="tech-chip">MySQL</span>
+          <span class="tech-chip">SQLite</span>
+          <span class="tech-chip">PostgreSQL</span>
+          <span class="tech-chip">MS SQL Server</span>
+        </div>
+      </div>
+      <div class="tech-group reveal" style="transition-delay:0.15s">
+        <div class="tech-group-title">🏥 Healthcare Protocols</div>
+        <div class="tech-chips">
+          <span class="tech-chip">ASTM E1394</span>
+          <span class="tech-chip">HL7 v2.x</span>
+          <span class="tech-chip">Serial RS-232</span>
+          <span class="tech-chip">TCP/IP Socket</span>
+        </div>
+      </div>
+      <div class="tech-group reveal" style="transition-delay:0.2s">
+        <div class="tech-group-title">📦 Data & Tools</div>
+        <div class="tech-chips">
+          <span class="tech-chip">Pandas</span>
+          <span class="tech-chip">NumPy</span>
+          <span class="tech-chip">Postman</span>
+          <span class="tech-chip">Docker</span>
+          <span class="tech-chip">AWS</span>
+        </div>
+      </div>
+      <div class="tech-group reveal" style="transition-delay:0.25s">
+        <div class="tech-group-title">🔧 Dev Workflow</div>
+        <div class="tech-chips">
+          <span class="tech-chip">Git</span>
+          <span class="tech-chip">GitHub</span>
+          <span class="tech-chip">Bitbucket</span>
+          <span class="tech-chip">GitHub Actions</span>
+          <span class="tech-chip">VS Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="section-label">06 — Contact</div>
+        <div class="section-line"></div>
+        <h2>Let's <em>connect</em></h2>
+        <p>
+          I'm open to new opportunities in healthcare IT, LIS/LIMS development, and Python backend engineering. Reach out via any channel below — I typically respond within 24 hours.
+        </p>
+        <div class="contact-links">
+
+          <!-- WhatsApp — works instantly, no setup -->
+          <a href="https://wa.me/919113746284?text=Hi%20Praveen%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect!" class="contact-link" target="_blank" rel="noopener">
+            <div class="contact-link-icon" style="background:rgba(37,211,102,0.15); font-size:1.1rem;">💬</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem; color:#25d366;">WhatsApp <span style="font-size:0.62rem; background:rgba(37,211,102,0.15); color:#25d366; padding:0.1rem 0.45rem; border-radius:3px; margin-left:0.3rem; letter-spacing:0.05em;">INSTANT</span></div>
+              <div style="font-size:0.72rem; color:var(--muted);">+91 91137 46284 · Opens chat directly</div>
+            </div>
+          </a>
+
+          <!-- Email — built via JS to avoid CF obfuscation -->
+          <a href="#" id="emailLink" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">Email</div>
+              <div style="font-size:0.72rem; color:var(--muted);" id="emailDisplay">praveenrj215@gmail.com</div>
+            </div>
+          </a>
+
+          <!-- Phone -->
+          <a href="tel:+919113746284" class="contact-link">
+            <div class="contact-link-icon">📱</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">Phone</div>
+              <div style="font-size:0.72rem; color:var(--muted);">+91 91137 46284</div>
+            </div>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com/in/praveen-kumar-34bb28206" class="contact-link" target="_blank" rel="noopener">
+            <div class="contact-link-icon">💼</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">LinkedIn</div>
+              <div style="font-size:0.72rem; color:var(--muted);">linkedin.com/in/praveen-kumar-34bb28206</div>
+            </div>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com/Praveen0418-dev" class="contact-link" target="_blank" rel="noopener">
+            <div class="contact-link-icon">🐙</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">GitHub</div>
+              <div style="font-size:0.72rem; color:var(--muted);">github.com/Praveen0418-dev</div>
+            </div>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://instagram.com/praveen_18__04" class="contact-link" target="_blank" rel="noopener">
+            <div class="contact-link-icon">📸</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">Instagram</div>
+              <div style="font-size:0.72rem; color:var(--muted);">@praveen_18__04</div>
+            </div>
+          </a>
+
+          <!-- Location -->
+          <div class="contact-link" style="cursor:default;">
+            <div class="contact-link-icon">📍</div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">Location</div>
+              <div style="font-size:0.72rem; color:var(--muted);">Pune, Maharashtra, India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM — WhatsApp tab (instant) + Email tab (mailto) -->
+      <div class="contact-form-area reveal" style="transition-delay:0.2s">
+        <h3>Send a message</h3>
+
+        <!-- Tab switcher -->
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.4rem;">
+          <button onclick="setTab('whatsapp')" id="tabWA"
+            style="flex:1; padding:0.55rem; border-radius:5px; border:1px solid #25d366; background:rgba(37,211,102,0.12); color:#25d366; font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; font-weight:700; transition:all 0.2s;">
+            💬 WhatsApp
+          </button>
+          <button onclick="setTab('email')" id="tabEM"
+            style="flex:1; padding:0.55rem; border-radius:5px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; transition:all 0.2s;">
+            ✉️ Email
+          </button>
+        </div>
+
+        <div class="form-row">
+          <label>Name</label>
+          <input id="formName" type="text" placeholder="Your full name" />
+        </div>
+        <div class="form-row" id="emailFieldRow">
+          <label>Your Email</label>
+          <input id="formEmail" type="email" placeholder="your@email.com" />
+        </div>
+        <div class="form-row">
+          <label>Subject</label>
+          <input id="formSubject" type="text" placeholder="What's this about?" />
+        </div>
+        <div class="form-row">
+          <label>Message</label>
+          <textarea id="formMessage" placeholder="Tell me about your project or opportunity..."></textarea>
+        </div>
+
+        <button class="btn-primary" id="sendBtn" onclick="handleFormSubmit()"
+          style="width:100%; margin-top:0.5rem; text-align:center; cursor:pointer; background:#25d366; box-shadow:0 0 20px rgba(37,211,102,0.3);">
+          💬 Send via WhatsApp
+        </button>
+
+        <!-- Success -->
+        <div id="formSuccess" style="display:none; margin-top:1rem; background:rgba(0,212,170,0.08); border:1px solid rgba(0,212,170,0.35); border-radius:8px; padding:1rem 1.2rem; text-align:center;">
+          <div style="font-size:1.4rem; margin-bottom:0.4rem;">✅</div>
+          <div style="font-family:var(--font-head); font-weight:700; color:var(--accent); font-size:0.9rem;">Message Ready!</div>
+          <div id="successMsg" style="font-size:0.75rem; color:var(--muted); margin-top:0.3rem;"></div>
+        </div>
+
+        <!-- Error -->
+        <div id="formError" style="display:none; margin-top:1rem; background:rgba(255,95,95,0.08); border:1px solid rgba(255,95,95,0.3); border-radius:8px; padding:0.8rem 1.2rem; text-align:center;">
+          <div id="errorMsg" style="font-size:0.78rem; color:#ff8080;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      Designed &amp; built by <a href="#">Praveen Kumar</a> · Junior Software Developer at Plus91 Technologies Pvt. Ltd., Pune, Maharashtra · Pune, India
+      <br/>
+      <span style="opacity:0.5; font-size:0.65rem; margin-top:0.4rem; display:inline-block;">
+        Python · Django · Flask · LIS/LIMS · Healthcare IT · MCA Graduate
+      </span>
+    </p>
+  </footer>
+
+  <script>
+    // ── Fix email link (bypass CF obfuscation) ──────────────────────
+    (function() {
+      var u = 'praveenrj215';
+      var d = 'gmail.com';
+      var full = u + '@' + d;
+      var el = document.getElementById('emailLink');
+      if (el) el.href = 'mailto:' + full;
+    })();
+
+    // ── Tab state ───────────────────────────────────────────────────
+    var currentTab = 'whatsapp';
+
+    function setTab(tab) {
+      currentTab = tab;
+      var btnWA = document.getElementById('tabWA');
+      var btnEM = document.getElementById('tabEM');
+      var sendBtn = document.getElementById('sendBtn');
+      var errEl = document.getElementById('formError');
+      var sucEl = document.getElementById('formSuccess');
+      errEl.style.display = 'none';
+      sucEl.style.display = 'none';
+
+      if (tab === 'whatsapp') {
+        btnWA.style.border = '1px solid #25d366';
+        btnWA.style.background = 'rgba(37,211,102,0.12)';
+        btnWA.style.color = '#25d366';
+        btnWA.style.fontWeight = '700';
+        btnEM.style.border = '1px solid var(--border)';
+        btnEM.style.background = 'transparent';
+        btnEM.style.color = 'var(--muted)';
+        btnEM.style.fontWeight = 'normal';
+        sendBtn.textContent = '💬 Send via WhatsApp';
+        sendBtn.style.background = '#25d366';
+        sendBtn.style.color = '#050c0f';
+        sendBtn.style.boxShadow = '0 0 20px rgba(37,211,102,0.3)';
+      } else {
+        btnEM.style.border = '1px solid var(--accent)';
+        btnEM.style.background = 'rgba(0,212,170,0.1)';
+        btnEM.style.color = 'var(--accent)';
+        btnEM.style.fontWeight = '700';
+        btnWA.style.border = '1px solid var(--border)';
+        btnWA.style.background = 'transparent';
+        btnWA.style.color = 'var(--muted)';
+        btnWA.style.fontWeight = 'normal';
+        sendBtn.textContent = '✉️ Send via Email';
+        sendBtn.style.background = 'var(--accent)';
+        sendBtn.style.color = '#050c0f';
+        sendBtn.style.boxShadow = '0 0 20px rgba(0,212,170,0.3)';
+      }
+    }
+
+    // ── Form submit ─────────────────────────────────────────────────
+    function handleFormSubmit() {
+      var name    = document.getElementById('formName').value.trim();
+      var email   = document.getElementById('formEmail').value.trim();
+      var subject = document.getElementById('formSubject').value.trim();
+      var message = document.getElementById('formMessage').value.trim();
+
+      var errorEl   = document.getElementById('formError');
+      var successEl = document.getElementById('formSuccess');
+      var successMsg = document.getElementById('successMsg');
+      var errorMsg  = document.getElementById('errorMsg');
+      var btn       = document.getElementById('sendBtn');
+
+      errorEl.style.display   = 'none';
+      successEl.style.display = 'none';
+
+      // Validate
+      if (!name || !subject || !message) {
+        errorMsg.textContent = '⚠️ Please fill in Name, Subject and Message.';
+        errorEl.style.display = 'block';
+        errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      if (currentTab === 'whatsapp') {
+        // ✅ WhatsApp — works 100% right now, no setup needed
+        var waText = '👋 Hi Praveen!\n\n'
+          + '📛 Name: ' + name + '\n'
+          + '📧 Email: ' + (email || 'Not provided') + '\n'
+          + '📌 Subject: ' + subject + '\n\n'
+          + '💬 Message:\n' + message + '\n\n'
+          + '— Sent from your portfolio';
+        var waURL = 'https://wa.me/919113746284?text=' + encodeURIComponent(waText);
+        window.open(waURL, '_blank');
+
+        successMsg.textContent = 'WhatsApp has opened with your message pre-filled. Just hit Send in WhatsApp!';
+        successEl.style.display = 'block';
+        btn.textContent = '✓ WhatsApp Opened!';
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      } else {
+        // ✅ Email — opens Gmail/mail app with message pre-filled
+        var mailSubject = encodeURIComponent('[Portfolio] ' + subject + ' — from ' + name);
+        var mailBody = encodeURIComponent(
+          'Hi Praveen,\n\n'
+          + 'Name: ' + name + '\n'
+          + 'Email: ' + (email || 'Not provided') + '\n\n'
+          + message + '\n\n'
+          + 'Best regards,\n' + name
+        );
+        window.location.href = 'mailto:praveenrj215@gmail.com?subject=' + mailSubject + '&body=' + mailBody;
+
+        successMsg.textContent = 'Your email client has opened with the message pre-filled. Just hit Send!';
+        successEl.style.display = 'block';
+        btn.textContent = '✓ Email Client Opened!';
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Clear fields
+      document.getElementById('formName').value    = '';
+      document.getElementById('formEmail').value   = '';
+      document.getElementById('formSubject').value = '';
+      document.getElementById('formMessage').value = '';
+
+      // Reset button
+      setTimeout(function() {
+        btn.textContent = currentTab === 'whatsapp' ? '💬 Send via WhatsApp' : '✉️ Send via Email';
+      }, 5000);
+    }
+
+    // ── Scroll reveal ───────────────────────────────────────────────
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function(el) { observer.observe(el); });
+
+    // ── Nav active state ────────────────────────────────────────────
+    var sections = document.querySelectorAll('section[id], div[id]');
+    var navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', function() {
+      var current = '';
+      sections.forEach(function(s) {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(function(a) {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
